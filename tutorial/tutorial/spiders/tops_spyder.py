@@ -4,6 +4,7 @@ from..items import TutorialItem
 
 class QuotesSpider(scrapy.Spider):
     name = "tops"
+# url
 
     def start_requests(self):
         urls = [
@@ -30,10 +31,8 @@ class QuotesSpider(scrapy.Spider):
                 'price': quote.css('span::text')[2].get(),
                 'sale_price': quote.css('span::text')[2].get(),
                 'image_url': quote.css('img').xpath('@src').get(),
-                'product_page_url': quote.css(".Image18__imageContainer a::attr(href)").get()
-
-                # 'author': quote.css('small.author::text').get(),
-                # 'tags': quote.css('div.tags a.tag::text').getall(),original_price
+                'product_page_url': response.css('.ProductGrid52 a::attr(href)').get(),
+                'product_category': 'topwear'
             }
         next_page = response.css('li.next a::attr(href)').get()
         if next_page is not None:
