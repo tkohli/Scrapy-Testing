@@ -3,18 +3,18 @@ from..items import TutorialItem
 
 
 class QuotesSpider(scrapy.Spider):
-    name = "tops"
+    name = "shoes"
 
     def start_requests(self):
         urls = [
-            'https://www.net-a-porter.com/en-in/shop/clothing/tops?pageNumber=1'
+            'https://www.net-a-porter.com/en-in/shop/shoes?pageNumber=1'
         ]
-        for i in range(2, 27):
-            urls.append(
-                "https://www.net-a-porter.com/en-in/shop/clothing/tops?pageNumber="+str(i))
-        # for i in range(1, 26):
+        # for i in range(2, 27):
         #     urls.append(
-        #         "https://www.net-a-porter.com/en-in/shop/shoes?pageNumber="+str(i))
+        #         "https://www.net-a-porter.com/en-in/shop/clothing/tops?pageNumber="+str(i))
+        for i in range(2, 26):
+            urls.append(
+                "https://www.net-a-porter.com/en-in/shop/shoes?pageNumber="+str(i))
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
@@ -29,8 +29,8 @@ class QuotesSpider(scrapy.Spider):
                 'brand': quote.css('.ProductItem24__name::text').get(),
                 'price': quote.css('span::text')[2].get(),
                 'sale_price': quote.css('span::text')[2].get(),
-                'image_url': quote.css('img').xpath('@src').get(),
-                'product_page_url': quote.css(".Image18__imageContainer a::attr(href)").get()
+                'image_url': response.css('img').xpath('@src').get(),
+                'product_page_url': response.css(".ProductGrid52 a::attr(href)").get()
 
                 # 'author': quote.css('small.author::text').get(),
                 # 'tags': quote.css('div.tags a.tag::text').getall(),original_price
